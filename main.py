@@ -5,7 +5,7 @@ from midiutil import MIDIFile
 
 kanaReclist = "か き く け こ きゃ きゅ きぇ きょ が ぎ ぐ げ ご ぎゃ ぎゅ ぎぇ ぎょ さ すぃ す せ そ しゃ し しゅ しぇ しょ ざ ずぃ ず ぜ ぞ じゃ じ じゅ じぇ じょ た てぃ とぅ て と ちゃ ち ちゅ ちぇ ちょ つぁ つぃ つ つぇ つぉ. だ でぃ どぅ で ど な に ぬ ね の にゃ にゅ にぇ にょ は ひ ほぅ へ ほ ひゃ ひゅ ひぇ ひょ ふぁ ふぃ ふ ふぇ ふぉ ば び ぶ べ ぼ びゃ びゅ びぇ びょ ぱ ぴ ぷ ぺ ぽ ぴゃ ぴゅ ぴぇ ぴょ ま み む め も みゃ みゅ みぇ みょ や ゆ いぇ よ ら り る れ ろ りゃ りゅ りぇ りょ わ うぃ うぇ を ヴぁ ヴぃ ヴ ヴぇ ヴぉ あ い う え お ん br1 br2 br3 br4 br5 Sil -"
 allKana = kanaReclist.split(" ")
-vowels = ["あ", "い", "う", "え", "お", "ん", "Sil", "Sil", "-", "-", "X", "X"]
+vowels = ["あ", "い", "う", "え", "お", "ん", "Sil", "Sil", "-", "-", "X", "X"] # X will be deleted notes I think
 
 
 def genMIDI(minPitch, maxPitch, totalNotes):
