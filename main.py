@@ -9,7 +9,7 @@ vowels = ["a", "i", "u", "e", "o", "n", "-"]
 
 def genMIDI(minPitch, maxPitch, totalNotes):
     noteDurations = [0.25, 0.5, 0.75, 1, 2, 4]
-    restDurations = [0.5, 0.75, 1, 2, 4]
+    restDurations = [0.25, 0.5, 0.75, 1, 2, 4, 6]
     track = 0
     time = 0
     tempo = 120
@@ -22,7 +22,7 @@ def genMIDI(minPitch, maxPitch, totalNotes):
 
     for i in range(0, totalNotes): # every note
 
-        lorq = random.randrange(0,10)
+        lorq = random.randrange(0,9)
         if lorq <= restChance:
             volume = 0
             duration = restDurations[random.randrange(0,len(restDurations))]
@@ -65,4 +65,4 @@ def main(totalNotes):
     genLyrics(totalNotes)
 
 
-main(40)
+main(1200)
