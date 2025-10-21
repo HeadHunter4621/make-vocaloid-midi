@@ -66,3 +66,25 @@ def main(totalNotes):
 
 
 main(1200)
+
+# Pitches!
+# V1 Kaito              [?-?] []
+# V1 Meiko              [?-?] []
+# V2 Gakupo         *   [A1-C4] []
+# V2 Len A2             [D3-C#5] []
+# V2 Luka           *   [D3-D5] []
+# V2 Piko               [C3-B4] []
+# V2 Rin A2             [F#3-C#5] []
+# V2 VY1                [F2-E4] []
+# V3 Galaco Blue        [F2-G4] []
+# V3 Galaco Red         [F2-G4] []
+# V3 Lily               [D2-D4] []
+# V3 vFlower            [F#2-F#4] []
+# V3 VY2            *   [A1-G3] []
+# V4 Fukase             [F2-A3] []
+# V4 Kaai Yuki          [F2-C4] []
+# V4 Megpoid            [F2-A4] []
+# V4 Una Spicy          [D2-C5] []
+# V4 Una Sugar          [D2-C5] []
+# V4 SF-A2 Miki         [E2-G4] []
+# V4X Miku              [A2-E4] []
