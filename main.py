@@ -9,7 +9,7 @@ vowels = ["a", "i", "u", "e", "o", "n", "-"]
 
 
 def add_phonemes(vowel, phoneme):
-    if vowel:
+    if vowel == True :
         vowels.append(phoneme)
     else :
         all_kana.append(phoneme)
@@ -17,7 +17,7 @@ def add_phonemes(vowel, phoneme):
 
 def generate_note_list(minPitch, maxPitch, totalNotes):
     mean = round((maxPitch + minPitch) / 2)
-    range = round(((maxPitch - mean) + (mean + minPitch)) / 4)
+    range = round(((maxPitch - mean) + (mean + minPitch)) / 8)
     amount = totalNotes
 
     dirty_list = np.array(np.random.normal(mean,range,amount))
@@ -66,7 +66,7 @@ def generate_midi(note_array, total_notes):
         )
         time += duration
 
-    with open("output.mid", "wb") as midi_output:
+    with open("file.mid", "wb") as midi_output:
         outputTrack.writeFile(midi_output)
 
 
@@ -79,21 +79,19 @@ def generate_lyrics(total_notes):
         else:
             selected_syllable = all_kana[random.randrange(0, len(all_kana))]
         kana_out_list.append(selected_syllable)
-    kana_out_string = " ".join(kana_out_list)
-
-    return(kana_out_string)
-
+    kana_out_string = str(' '.join(kana_out_list))
+    print(kana_out_string)
 
 
 def main(min_pitch, max_pitch, total_notes):
-    print(generate_note_list(min_pitch, max_pitch, total_notes))
-    print(generate_lyrics(total_notes))
+    generate_midi(generate_note_list(min_pitch, max_pitch, total_notes), total_notes)
+    generate_lyrics(total_notes)
 
 
-# add_phonemes()
-main(36, 8, 3600)
+add_phonemes(False, "in")
+main(48, 72, 14400)
 
-# 3600 Notes ~ 1 Hour of data
+# 14400 Notes ~ 1 Hour of data
 
 # EXTRA PHONEMES!
 # V1: in (inhale)
