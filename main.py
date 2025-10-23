@@ -83,15 +83,4 @@ def main(minPitch, maxPitch, totalNotes):
 
 main(36, 48, 1200)
 
-# Pitch math
-# Curve?
-#   import numpy as np
-#   random_numbers_array = np.random.normal(loc, scale, size)
-#   mean = ((maxPitch + minPitch) / 2).round(0)
-#   range = (maxPitch - minPitch)    # Deviation (keep average in range)
-#   amount = totalNotes
-# V1 Kaito:
-#   Optimal range:
-#     Low:   C2 (36)
-#     Mean: F#2 (42)
-#     High:  C3 (48)
+# 3600 Notes ~ 1 Hour
