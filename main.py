@@ -91,9 +91,9 @@ def main(min_pitch, max_pitch, total_notes):
 
 
 # add_phonemes()
-main(36, 8, 2000)
+main(36, 8, 3600)
 
-# 3600 Notes ~ 1 Hour
+# 3600 Notes ~ 1 Hour of data
 
 # EXTRA PHONEMES!
 # V1: in (inhale)
