@@ -1,31 +1,38 @@
 import random
-from midiutil import MIDIFile
 import numpy as np
+from midiutil import MIDIFile
 
-# Works in vocaloid 4 I think (haven't tested lol)
 
-kanaReclist = "ka ki ku ke ko kya kyu kye kyo ga gi gu ge go gya gyu gye gyo sa si su se so sha shi shu she sho za zi zu ze zo ja ji ju je jo ta ti tu te to cha chi chu che cho tsa tsi tsu tse tso da di du de do na ni nu ne no nya nyu nye nyo ha hi hu he ho hya hyu hye hyo fa fi fu fe fo ba bi bu be bo bya byu bye byo pa pi pu pe po pya pyu pye pyo ma mi mu me mo mya myu mye myo ya yu ye yo ra ri ru re ro rya ryu rye ryo wa wi we wo a i u e o n -"
-allKana = kanaReclist.split(" ")
+romaji_list = "ka ki ku ke ko kya kyu kye kyo ga gi gu ge go gya gyu gye gyo sa si su se so sha shi shu she sho za zi zu ze zo ja ji ju je jo ta ti tu te to cha chi chu che cho tsa tsi tsu tse tso da di du de do na ni nu ne no nya nyu nye nyo ha hi hu he ho hya hyu hye hyo fa fi fu fe fo ba bi bu be bo bya byu bye byo pa pi pu pe po pya pyu pye pyo ma mi mu me mo mya myu mye myo ya yu ye yo ra ri ru re ro rya ryu rye ryo wa wi we wo a i u e o n -"
+all_kana = romaji_list.split(" ")
 vowels = ["a", "i", "u", "e", "o", "n", "-"]
 
-def genNotes(minPitch, maxPitch, totalNotes):
-    mean = round((maxPitch - minPitch) / 2)
-    range = round(((maxPitch - mean) + (mean + minPitch)) / 2)
+
+def add_phonemes(vowel, phoneme):
+    if vowel:
+        vowels.append(phoneme)
+    else :
+        all_kana.append(phoneme)
+
+
+def generate_note_list(minPitch, maxPitch, totalNotes):
+    mean = round((maxPitch + minPitch) / 2)
+    range = round(((maxPitch - mean) + (mean + minPitch)) / 4)
     amount = totalNotes
 
+    dirty_list = np.array(np.random.normal(mean,range,amount))
 
-    dirty_array = np.array(np.random.normal(mean,range,amount))
+    dirty_list[dirty_list > 127] = random.randrange(0,127) # Set to 127 if above 127
+    dirty_list[dirty_list <   0] = random.randrange(0,127)   # Set to 0 if below 0
 
-    dirty_array[dirty_array > 127] = 127 # Set to 127 if above 127
-    dirty_array[dirty_array <   0] = 0   # Set to 0 if below 0
+    note_list = [round(pitch) for pitch in dirty_list]
+
+    return note_list
 
 
-    note_array = [round(pitch) for pitch in dirty_array]
-    return note_array
-
-def genMIDI(note_array, totalNotes):
+def generate_midi(note_array, total_notes):
     noteDurations = [0.25, 0.5, 0.75, 1, 2, 4, 8]
-    restDurations = [      0.5, 0.75, 1, 2, 4   ]
+    restDurations = [0.25, 0.5, 0.75, 1, 2, 4   ]
     track   = 0
     time    = 0
     tempo   = 120
@@ -36,7 +43,8 @@ def genMIDI(note_array, totalNotes):
     outputTrack = MIDIFile(1)
     outputTrack.addTempo(track, time, tempo)
 
-    for i in range(0, totalNotes): # every note
+
+    for i in range(0, total_notes): # every note
 
         lorq = random.randrange(0,9)
         if lorq <= restChance:
@@ -62,25 +70,31 @@ def genMIDI(note_array, totalNotes):
         outputTrack.writeFile(midi_output)
 
 
-def genLyrics(amount):
-    kanaOutList = []
-    for i in range(0, amount):
+def generate_lyrics(total_notes):
+    kana_out_list = []
+    for i in range(0, total_notes):
         number = random.randrange(1, 10)
         if number <= 2:
-            selectedKana = vowels[random.randrange(0, len(vowels))]
+            selected_syllable = vowels[random.randrange(0, len(vowels))]
         else:
-            selectedKana = allKana[random.randrange(0, len(allKana))]
-        kanaOutList.append(selectedKana)
-    kanaOutString = " ".join(kanaOutList)
+            selected_syllable = all_kana[random.randrange(0, len(all_kana))]
+        kana_out_list.append(selected_syllable)
+    kana_out_string = " ".join(kana_out_list)
 
-    print(kanaOutString)
+    return(kana_out_string)
 
 
-def main(minPitch, maxPitch, totalNotes):
-    genNotes(minPitch, maxPitch, totalNotes)
-    # print(genNotes(minPitch, maxPitch, totalNotes))
-    #print(genLyrics(totalNotes))
 
-main(36, 48, 1200)
+def main(min_pitch, max_pitch, total_notes):
+    print(generate_note_list(min_pitch, max_pitch, total_notes))
+    print(generate_lyrics(total_notes))
+
+
+# add_phonemes()
+main(36, 8, 2000)
 
 # 3600 Notes ~ 1 Hour
+
+# EXTRA PHONEMES!
+# V1: in (inhale)
+# Other: N/A
