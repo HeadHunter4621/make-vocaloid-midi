@@ -1,5 +1,6 @@
 import random
 from midiutil import MIDIFile
+import numpy as np
 
 # Works in vocaloid 4 I think (haven't tested lol)
 
@@ -7,12 +8,27 @@ kanaReclist = "ka ki ku ke ko kya kyu kye kyo ga gi gu ge go gya gyu gye gyo sa 
 allKana = kanaReclist.split(" ")
 vowels = ["a", "i", "u", "e", "o", "n", "-"]
 
-def genMIDI(minPitch, maxPitch, totalNotes):
-    noteDurations = [0.25, 0.5, 0.75, 1, 2, 4]
-    restDurations = [0.25, 0.5, 0.75, 1, 2, 4, 6]
-    track = 0
-    time = 0
-    tempo = 120
+def genNotes(minPitch, maxPitch, totalNotes):
+    mean = round((maxPitch - minPitch) / 2)
+    range = round(((maxPitch - mean) + (mean + minPitch)) / 2)
+    amount = totalNotes
+
+
+    dirty_array = np.array(np.random.normal(mean,range,amount))
+
+    dirty_array[dirty_array > 127] = 127 # Set to 127 if above 127
+    dirty_array[dirty_array <   0] = 0   # Set to 0 if below 0
+
+
+    note_array = [round(pitch) for pitch in dirty_array]
+    return note_array
+
+def genMIDI(note_array, totalNotes):
+    noteDurations = [0.25, 0.5, 0.75, 1, 2, 4, 8]
+    restDurations = [      0.5, 0.75, 1, 2, 4   ]
+    track   = 0
+    time    = 0
+    tempo   = 120
     channel = 0
 
     restChance = 0
@@ -35,7 +51,7 @@ def genMIDI(minPitch, maxPitch, totalNotes):
         outputTrack.addNote(
             track,
             channel,
-            random.randrange(minPitch, maxPitch),
+            note_array[i],
             time,
             duration,
             volume
@@ -60,31 +76,22 @@ def genLyrics(amount):
     print(kanaOutString)
 
 
-def main(totalNotes):
-    genMIDI(40, 67, totalNotes)
-    genLyrics(totalNotes)
+def main(minPitch, maxPitch, totalNotes):
+    genNotes(minPitch, maxPitch, totalNotes)
+    # print(genNotes(minPitch, maxPitch, totalNotes))
+    #print(genLyrics(totalNotes))
 
+main(36, 48, 1200)
 
-main(1200)
-
-# Pitches!
-# V1 Kaito              [?-?] [?-?]
-# V1 Meiko              [?-?] [?-?]
-# V2 Gakupo         *   [33-60] [A1-C4]
-# V2 Len A2             [50-73] [D3-C#5]
-# V2 Luka           *   [50-74] [D3-D5]
-# V2 Piko               [48-71] [C3-B4]
-# V2 Rin A2             [54-73] [F#3-C#5]
-# V2 VY1                [41-65] [F2-E4]
-# V3 Galaco Blue        [41-67] [F2-G4]
-# V3 Galaco Red         [41-67] [F2-G4]
-# V3 Lily               [38-62] [D2-D4]
-# V3 vFlower            [42-66] [F#2-F#4]
-# V3 VY2            *   [33-55] [A1-G3]
-# V4 Fukase             [41-57] [F2-A3]
-# V4 Kaai Yuki          [41-60] [F2-C4]
-# V4 Megpoid            [41-69] [F2-A4]
-# V4 Una Spicy          [39-72] [D2-C5]
-# V4 Una Sugar          [39-72] [D2-C5]
-# V4 SF-A2 Miki         [40-67] [E2-G4]
-# V4X Miku              [45-64] [A2-E4]
+# Pitch math
+# Curve?
+#   import numpy as np
+#   random_numbers_array = np.random.normal(loc, scale, size)
+#   mean = ((maxPitch + minPitch) / 2).round(0)
+#   range = (maxPitch - minPitch)    # Deviation (keep average in range)
+#   amount = totalNotes
+# V1 Kaito:
+#   Optimal range:
+#     Low:   C2 (36)
+#     Mean: F#2 (42)
+#     High:  C3 (48)
